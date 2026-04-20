@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Edwige Klutse — Animatrice · Présentatrice TV · Maître de Cérémonie</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  /* ────────── RESET & TOKENS ────────── */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --rose:        #e8507a;
+    --rose-deep:   #c0314f;
+    --rose-light:  #f7a8bd;
+    --rose-pale:   #fce8ef;
+    --gold:        #d4a84b;
+    --gold-light:  #f0d080;
+    --dark:        #0d0508;
+    --dark2:       #1a0b10;
+    --dark3:       #2a1018;
+    --cream:       #fdf6f8;
+    --white:       #ffffff;
+    --font-display:'Cormorant Garamond',serif;
+    --font-body:   'Jost',sans-serif;
+  }
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--dark);
+    color:var(--cream);
+    font-family:var(--font-body);
+    overflow-x:hidden;
+    cursor:none;
+  }
+
+  /* ────────── CUSTOM CURSOR ────────── */
+  .cursor{
+    width:12px;height:12px;border-radius:50%;
+    background:var(--rose);
+    position:fixed;top:0;left:0;
+    pointer-events:none;z-index:99999;
+    transform:translate(-50%,-50%);
+    transition:transform .1s,background .2s;
+    mix-blend-mode:screen;
+  }
+  .cursor-ring{
+    width:40px;height:40px;border-radius:50%;
+    border:1px solid rgba(232,80,122,.45);
+    position:fixed;top:0;left:0;
+    pointer-events:none;z-index:99998;
+    transform:translate(-50%,-50%);
+    transition:all .25s ease;
+  }
+
+  /* ────────── INTRO LOADER ────────── */
+  #intro{
+    position:fixed;inset:0;z-index:9999;
+    background:var(--dark);
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    transition:opacity .8s ease, visibility .8s;
+  }
+  #intro.gone{opacity:0;visibility:hidden;pointer-events:none}
+  .intro-logo{
+    font-family:var(--font-display);
+    font-size:clamp(2.5rem,8vw,5.5rem);
+    font-weight:300;
+    letter-spacing:.35em;
+    color:transparent;
+    background:linear-gradient(135deg,var(--rose-light),var(--gold-light),var(--rose));
+    -webkit-background-clip:text;background-clip:text;
+    opacity:0;transform:translateY(30px);
+    animation:introName 1.2s .3s ease forwards;
+  }
+  .intro-sub{
+    font-family:var(--font-body);
+    font-size:clamp(.7rem,2vw,.9rem);
+    letter-spacing:.6em;
+    text-transform:uppercase;
+    color:var(--rose-light);
+    opacity:0;
+    animation:introName .9s .9s ease forwards;
+    margin-top:.6rem;
+  }
+  .intro-bar{
+    width:0;height:2px;
+    background:linear-gradient(90deg,var(--rose),var(--gold));
+    margin-top:2.5rem;
+    animation:barGrow 1.4s 1.2s ease forwards;
+    max-width:300px;
+  }
+  @keyframes introName{to{opacity:1;transform:translateY(0)}}
+  @keyframes barGrow{to{width:300px}}
+
+  /* ────────── NAV ────────── */
+  nav{
+    position:fixed;top:0;width:100%;z-index:999;
+    padding:1.2rem 5%;
+    display:flex;align-items:center;justify-content:space-between;
+    transition:background .4s,backdrop-filter .4s;
+  }
+  nav.scrolled{
+    background:rgba(13,5,8,.88);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(232,80,122,.15);
+  }
+  .nav-logo{
+    font-family:var(--font-display);
+    font-size:1.5rem;font-weight:600;
+    letter-spacing:.12em;
+    color:var(--rose-light);
+    text-decoration:none;
+  }
+  .nav-links{display:flex;gap:2.5rem;list-style:none}
+  .nav-links a{
+    font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;
+    color:rgba(253,246,248,.65);text-decoration:none;
+    transition:color .3s;position:relative;
+  }
+  .nav-links a::after{
+    content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;
+    background:var(--rose);transition:width .3s;
+  }
+  .nav-links a:hover{color:var(--rose-light)}
+  .nav-links a:hover::after{width:100%}
+
+  /* hamburger */
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
+  .hamburger span{width:24px;height:2px;background:var(--rose-light);transition:all .3s;border-radius:2px}
+  .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+  .hamburger.open span:nth-child(2){opacity:0}
+  .hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+  .mobile-menu{
+    display:none;position:fixed;inset:0;
+    background:rgba(13,5,8,.97);z-index:998;
+    flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;
+  }
+  .mobile-menu.open{display:flex}
+  .mobile-menu a{
+    font-family:var(--font-display);font-size:2.2rem;
+    color:var(--cream);text-decoration:none;letter-spacing:.08em;
+    transition:color .3s;
+  }
+  .mobile-menu a:hover{color:var(--rose)}
+
+  /* ────────── HERO ────────── */
+  #hero{
+    min-height:100vh;position:relative;
+    display:grid;grid-template-columns:1fr 1fr;
+    align-items:center;
+    padding:0 6%;
+    overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse 70% 80% at 80% 50%, rgba(192,49,79,.18) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 60% at 20% 80%, rgba(212,168,75,.08) 0%, transparent 55%),
+      var(--dark);
+  }
+  .hero-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+  .particle{
+    position:absolute;border-radius:50%;
+    background:var(--rose);opacity:.25;
+    animation:float linear infinite;
+  }
+  @keyframes float{
+    0%{transform:translateY(100vh) rotate(0)}
+    100%{transform:translateY(-10vh) rotate(720deg)}
+  }
+
+  .hero-text{position:relative;z-index:2;padding-top:7rem}
+  .hero-eyebrow{
+    font-family:var(--font-body);
+    font-size:.75rem;letter-spacing:.55em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:1.5rem;
+    opacity:0;transform:translateX(-20px);
+    animation:slideIn .8s 2.8s ease forwards;
+  }
+  .hero-name{
+    font-family:var(--font-display);
+    font-size:clamp(3rem,5.5vw,5.2rem);
+    font-weight:300;line-height:1.05;
+    color:var(--white);
+    opacity:0;transform:translateX(-30px);
+    animation:slideIn 1s 3s ease forwards;
+  }
+  .hero-name em{
+    font-style:italic;
+    color:transparent;
+    background:linear-gradient(135deg,var(--rose),var(--gold));
+    -webkit-background-clip:text;background-clip:text;
+  }
+  .hero-tagline{
+    font-size:clamp(1rem,2vw,1.25rem);
+    font-weight:300;letter-spacing:.08em;
+    color:var(--rose-light);
+    margin-top:1.2rem;
+    opacity:0;transform:translateX(-20px);
+    animation:slideIn .9s 3.3s ease forwards;
+  }
+  .hero-desc{
+    margin-top:1.8rem;
+    font-size:.93rem;line-height:1.85;
+    color:rgba(253,246,248,.68);max-width:440px;
+    opacity:0;
+    animation:fadeUp .9s 3.6s ease forwards;
+  }
+  .hero-btns{
+    display:flex;gap:1.2rem;flex-wrap:wrap;
+    margin-top:2.5rem;
+    opacity:0;animation:fadeUp .9s 3.9s ease forwards;
+  }
+  .btn-primary{
+    padding:.85rem 2.2rem;
+    background:linear-gradient(135deg,var(--rose),var(--rose-deep));
+    color:#fff;border:none;border-radius:3px;
+    font-family:var(--font-body);font-size:.78rem;
+    letter-spacing:.25em;text-transform:uppercase;
+    cursor:pointer;text-decoration:none;
+    box-shadow:0 8px 30px rgba(200,50,80,.35);
+    transition:transform .25s,box-shadow .25s;
+  }
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(200,50,80,.5)}
+  .btn-outline{
+    padding:.85rem 2.2rem;
+    background:transparent;
+    color:var(--rose-light);
+    border:1px solid rgba(232,80,122,.5);border-radius:3px;
+    font-family:var(--font-body);font-size:.78rem;
+    letter-spacing:.25em;text-transform:uppercase;
+    cursor:pointer;text-decoration:none;
+    transition:all .25s;
+  }
+  .btn-outline:hover{background:rgba(232,80,122,.12);border-color:var(--rose)}
+
+  @keyframes slideIn{to{opacity:1;transform:translateX(0)}}
+  @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+
+  .hero-photo{
+    position:relative;z-index:2;
+    display:flex;align-items:center;justify-content:center;
+    padding-top:5rem;
+  }
+  .photo-frame{
+    position:relative;width:min(420px,90%);
+  }
+  .photo-frame img{
+    width:100%;
+    border-radius:4px 60px 4px 60px;
+    object-fit:cover;aspect-ratio:3/4;
+    opacity:0;
+    animation:imgReveal 1s 3.2s ease forwards;
+    box-shadow:0 30px 80px rgba(0,0,0,.6);
+    filter:brightness(.95) saturate(1.1);
+  }
+  @keyframes imgReveal{to{opacity:1}}
+  .photo-decor-ring{
+    position:absolute;
+    width:calc(100% + 30px);height:calc(100% + 30px);
+    top:-15px;left:-15px;
+    border-radius:4px 70px 4px 70px;
+    border:1px solid rgba(232,80,122,.3);
+    animation:ringPulse 3s ease-in-out infinite;
+  }
+  @keyframes ringPulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.7;transform:scale(1.01)}}
+  .photo-glow{
+    position:absolute;inset:0;
+    border-radius:4px 60px 4px 60px;
+    background:linear-gradient(180deg,transparent 50%,rgba(192,49,79,.35) 100%);
+    pointer-events:none;
+  }
+  .photo-badge{
+    position:absolute;bottom:30px;left:-20px;
+    background:linear-gradient(135deg,var(--rose-deep),var(--dark2));
+    border:1px solid rgba(232,80,122,.4);
+    border-radius:50px;padding:.6rem 1.2rem;
+    font-size:.75rem;letter-spacing:.15em;
+    text-transform:uppercase;color:var(--rose-light);
+    box-shadow:0 10px 30px rgba(0,0,0,.5);
+    white-space:nowrap;
+  }
+  .stat-chips{
+    position:absolute;top:20px;right:-25px;
+    display:flex;flex-direction:column;gap:.8rem;
+  }
+  .chip{
+    background:rgba(26,11,16,.88);
+    border:1px solid rgba(212,168,75,.35);
+    border-radius:8px;padding:.55rem 1rem;
+    text-align:center;backdrop-filter:blur(8px);
+    box-shadow:0 8px 20px rgba(0,0,0,.4);
+  }
+  .chip-n{font-family:var(--font-display);font-size:1.6rem;font-weight:600;color:var(--gold)}
+  .chip-l{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(253,246,248,.55)}
+
+  /* ────────── SECTION COMMONS ────────── */
+  section{padding:7rem 8%}
+  .section-label{
+    font-size:.7rem;letter-spacing:.5em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:1rem;
+  }
+  .section-title{
+    font-family:var(--font-display);
+    font-size:clamp(2rem,4vw,3.5rem);
+    font-weight:300;line-height:1.1;
+    color:var(--white);margin-bottom:2rem;
+  }
+  .section-title span{
+    font-style:italic;
+    color:transparent;
+    background:linear-gradient(135deg,var(--rose-light),var(--gold));
+    -webkit-background-clip:text;background-clip:text;
+  }
+  .divider{
+    width:60px;height:2px;
+    background:linear-gradient(90deg,var(--rose),var(--gold));
+    margin-bottom:2.5rem;
+    border:none;
+  }
+
+  /* reveal animation */
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  /* ────────── ABOUT ────────── */
+  #about{
+    background:linear-gradient(160deg,var(--dark2) 0%,var(--dark) 100%);
+    position:relative;overflow:hidden;
+  }
+  #about::before{
+    content:'';position:absolute;
+    width:500px;height:500px;border-radius:50%;
+    background:radial-gradient(circle,rgba(232,80,122,.06),transparent 70%);
+    top:-150px;right:-100px;
+    pointer-events:none;
+  }
+  .about-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:5rem;align-items:center}
+  .about-photos{position:relative;height:520px}
+  .ab-ph{
+    position:absolute;
+    border-radius:4px;
+    object-fit:cover;
+    box-shadow:0 20px 60px rgba(0,0,0,.6);
+  }
+  .ab-ph-1{width:58%;height:78%;top:0;left:0;filter:brightness(.92) saturate(1.1)}
+  .ab-ph-2{
+    width:52%;height:58%;bottom:0;right:0;
+    border:3px solid var(--rose-deep);
+    filter:brightness(.88) saturate(1.1);
+    animation:floatY 4s ease-in-out infinite;
+  }
+  @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  .about-quote{
+    position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+    background:rgba(13,5,8,.9);
+    border-left:3px solid var(--rose);
+    padding:1rem 1.4rem;width:80%;
+    font-family:var(--font-display);font-style:italic;
+    font-size:1rem;color:var(--rose-light);
+    backdrop-filter:blur(8px);
+    border-radius:0 4px 4px 0;
+  }
+  .about-text p{
+    font-size:.96rem;line-height:1.9;
+    color:rgba(253,246,248,.72);margin-bottom:1.2rem;
+  }
+  .about-text p strong{color:var(--rose-light)}
+  .skills-row{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.5rem}
+  .skill-tag{
+    padding:.45rem 1.1rem;
+    border:1px solid rgba(232,80,122,.3);
+    border-radius:50px;font-size:.75rem;
+    letter-spacing:.12em;text-transform:uppercase;
+    color:var(--rose-light);
+    transition:all .25s;
+  }
+  .skill-tag:hover{background:rgba(232,80,122,.15);border-color:var(--rose)}
+
+  /* ────────── SERVICES ────────── */
+  #services{background:var(--dark)}
+  .services-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1.5rem;margin-top:1rem;
+  }
+  .service-card{
+    background:var(--dark2);
+    border:1px solid rgba(232,80,122,.1);
+    border-radius:8px;
+    padding:2.5rem 2rem;
+    position:relative;overflow:hidden;
+    transition:transform .35s,border-color .35s,box-shadow .35s;
+    cursor:default;
+  }
+  .service-card::before{
+    content:'';position:absolute;
+    inset:0;opacity:0;
+    background:linear-gradient(135deg,rgba(232,80,122,.08),rgba(212,168,75,.04));
+    transition:opacity .35s;
+  }
+  .service-card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(232,80,122,.4);
+    box-shadow:0 20px 60px rgba(192,49,79,.2);
+  }
+  .service-card:hover::before{opacity:1}
+  .service-icon{
+    width:52px;height:52px;border-radius:50%;
+    background:linear-gradient(135deg,var(--rose-deep),var(--dark3));
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:1.5rem;
+    font-size:1.5rem;
+    border:1px solid rgba(232,80,122,.3);
+  }
+  .service-card h3{
+    font-family:var(--font-display);font-size:1.5rem;font-weight:400;
+    color:var(--white);margin-bottom:.8rem;
+  }
+  .service-card p{font-size:.88rem;line-height:1.8;color:rgba(253,246,248,.6)}
+  .service-num{
+    position:absolute;bottom:1.5rem;right:1.8rem;
+    font-family:var(--font-display);font-size:3.5rem;font-weight:700;
+    color:rgba(232,80,122,.06);line-height:1;
+  }
+
+  /* ────────── GALLERY ────────── */
+  #gallery{
+    background:linear-gradient(180deg,var(--dark) 0%,var(--dark2) 100%);
+  }
+  .gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    grid-template-rows:auto auto;
+    gap:1rem;margin-top:2rem;
+  }
+  .gallery-item{
+    overflow:hidden;border-radius:4px;position:relative;cursor:pointer;
+  }
+  .gallery-item img{
+    width:100%;height:100%;object-fit:cover;
+    transition:transform .5s ease,filter .5s ease;
+    display:block;
+  }
+  .gallery-item::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(180deg,transparent 50%,rgba(192,49,79,.5) 100%);
+    opacity:0;transition:opacity .4s;
+  }
+  .gallery-item:hover img{transform:scale(1.07);filter:saturate(1.2) brightness(.85)}
+  .gallery-item:hover::after{opacity:1}
+  .g1{grid-column:1/3;grid-row:1/2;min-height:280px}
+  .g2{grid-column:3;grid-row:1;min-height:280px}
+  .g3{grid-column:4;grid-row:1;min-height:280px}
+  .g4{grid-column:1;grid-row:2;min-height:220px}
+
+  /* ────────── QUOTE ────────── */
+  #quote-section{
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 50%,rgba(192,49,79,.12) 0%,transparent 70%),
+      var(--dark2);
+    text-align:center;
+    padding:6rem 8%;
+    position:relative;overflow:hidden;
+  }
+  .big-quote{
+    font-family:var(--font-display);
+    font-size:clamp(1.6rem,4vw,3rem);
+    font-style:italic;font-weight:300;
+    line-height:1.5;
+    color:var(--white);
+    max-width:850px;margin:0 auto;
+    position:relative;z-index:1;
+  }
+  .big-quote::before{
+    content:'"';
+    font-size:10rem;color:rgba(232,80,122,.1);
+    line-height:0;position:absolute;top:3rem;left:-2rem;
+    font-style:normal;
+  }
+  .quote-attr{
+    margin-top:1.5rem;
+    font-size:.8rem;letter-spacing:.35em;text-transform:uppercase;
+    color:var(--gold);
+  }
+
+  /* ────────── CONTACT ────────── */
+  #contact{
+    background:var(--dark);
+    position:relative;overflow:hidden;
+  }
+  #contact::after{
+    content:'';position:absolute;
+    width:600px;height:600px;border-radius:50%;
+    background:radial-gradient(circle,rgba(232,80,122,.07),transparent 70%);
+    bottom:-200px;right:-200px;
+    pointer-events:none;
+  }
+  .contact-inner{
+    display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;
+  }
+  .contact-info p{font-size:.95rem;line-height:1.9;color:rgba(253,246,248,.65);margin-bottom:2rem}
+  .social-links{display:flex;gap:1.2rem;flex-wrap:wrap}
+  .soc-btn{
+    display:flex;align-items:center;gap:.6rem;
+    padding:.7rem 1.4rem;
+    border:1px solid rgba(232,80,122,.3);border-radius:50px;
+    color:var(--rose-light);text-decoration:none;
+    font-size:.78rem;letter-spacing:.12em;
+    transition:all .3s;
+  }
+  .soc-btn:hover{background:rgba(232,80,122,.15);border-color:var(--rose);transform:translateY(-2px)}
+  .contact-form{display:flex;flex-direction:column;gap:1rem}
+  .form-field{
+    background:var(--dark2);
+    border:1px solid rgba(232,80,122,.15);border-radius:4px;
+    padding:.9rem 1.2rem;
+    color:var(--cream);font-family:var(--font-body);font-size:.9rem;
+    outline:none;resize:none;
+    transition:border-color .3s;
+  }
+  .form-field::placeholder{color:rgba(253,246,248,.3)}
+  .form-field:focus{border-color:var(--rose)}
+  textarea.form-field{min-height:130px}
+
+  /* ────────── FOOTER ────────── */
+  footer{
+    background:var(--dark2);
+    border-top:1px solid rgba(232,80,122,.12);
+    padding:2.5rem 8%;
+    display:flex;align-items:center;justify-content:space-between;
+    flex-wrap:wrap;gap:1rem;
+  }
+  .footer-logo{
+    font-family:var(--font-display);font-size:1.4rem;font-weight:600;
+    color:var(--rose-light);letter-spacing:.1em;
+  }
+  .footer-copy{font-size:.76rem;color:rgba(253,246,248,.4);letter-spacing:.12em}
+  .footer-heart{color:var(--rose)}
+
+  /* ────────── SCROLLBAR ────────── */
+  ::-webkit-scrollbar{width:5px}
+  ::-webkit-scrollbar-track{background:var(--dark)}
+  ::-webkit-scrollbar-thumb{background:var(--rose-deep);border-radius:10px}
+
+  /* ────────── RESPONSIVE ────────── */
+  @media(max-width:1024px){
+    .about-grid{grid-template-columns:1fr}
+    .about-photos{height:380px;margin-bottom:2rem}
+    .services-grid{grid-template-columns:1fr 1fr}
+    .contact-inner{grid-template-columns:1fr}
+    .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto auto}
+    .g1{grid-column:1/2;grid-row:1}
+    .g2{grid-column:2;grid-row:1}
+    .g3{grid-column:1;grid-row:2}
+    .g4{grid-column:2;grid-row:2}
+  }
+  @media(max-width:768px){
+    #hero{grid-template-columns:1fr;padding:0 5%;text-align:center;gap:2rem}
+    .hero-text{order:2;padding-top:2rem;padding-bottom:3rem}
+    .hero-photo{order:1;padding-top:7rem}
+    .hero-desc{max-width:100%}
+    .hero-btns{justify-content:center}
+    .photo-badge{left:10px;bottom:15px;font-size:.65rem}
+    .stat-chips{top:10px;right:5px}
+    .services-grid{grid-template-columns:1fr}
+    .gallery-grid{grid-template-columns:1fr 1fr}
+    .g1{grid-column:1;grid-row:1}
+    .g2{grid-column:2;grid-row:1}
+    .g3{grid-column:1;grid-row:2}
+    .g4{grid-column:2;grid-row:2}
+    .nav-links{display:none}
+    .hamburger{display:flex}
+    section{padding:5rem 5%}
+    footer{flex-direction:column;text-align:center}
+  }
+  @media(max-width:480px){
+    .about-photos{height:300px}
+    .ab-ph-1{width:65%;height:75%}
+    .ab-ph-2{width:58%;height:52%}
+    .chip{padding:.4rem .7rem}
+    .chip-n{font-size:1.3rem}
+  }
+</style>
+</head>
+<body>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- INTRO LOADER -->
+<div id="intro">
+  <div class="intro-logo">EDWIGE KLUTSE</div>
+  <div class="intro-sub">The Voice Queen of Togo 🇹🇬</div>
+  <div class="intro-bar"></div>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#hero" onclick="closeMobile()">Accueil</a>
+  <a href="#about" onclick="closeMobile()">À Propos</a>
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#gallery" onclick="closeMobile()">Galerie</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">EK</a>
+  <ul class="nav-links">
+    <li><a href="#about">À Propos</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#gallery">Galerie</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMobile()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <!-- Particles -->
+  <div class="hero-particles" id="particles"></div>
+
+  <div class="hero-text">
+    <div class="hero-eyebrow">✦ The Voice Queen of Togo · Lomé, Togo 🇹🇬</div>
+    <h1 class="hero-name">
+      <em>Edwige</em><br>Klutse
+    </h1>
+    <p class="hero-tagline">Animatrice · Présentatrice TV · Maître de Cérémonie</p>
+    <p class="hero-desc">
+      Vivi Essenam Klutse, connue sous le nom d'Edwige Klutse, est une figure
+      incontournable de l'animation au Togo et en Afrique de l'Ouest. Son sourire
+      contagieux, son élégance naturelle et sa passion sans limite font d'elle une
+      professionnelle hors pair — <strong style="color:var(--rose-light)">l'animation, c'est sa prière exaucée.</strong>
+    </p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Me Contacter</a>
+      <a href="#about" class="btn-outline">Découvrir</a>
+    </div>
+  </div>
+
+  <div class="hero-photo">
+    <div class="photo-frame">
+      <img src="pha.jpg" alt="Edwige Klutse" />
+      <div class="photo-decor-ring"></div>
+      <div class="photo-glow"></div>
+      <div class="photo-badge">✦ The Voice Queen of Togo</div>
+      <div class="stat-chips">
+        <div class="chip">
+          <div class="chip-n">15+</div>
+          <div class="chip-l">Années</div>
+        </div>
+        <div class="chip">
+          <div class="chip-n" style="font-size:1.2rem;color:var(--rose-light)">🇹🇬</div>
+          <div class="chip-l">Lomé</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ABOUT ══ -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-photos reveal">
+      <img class="ab-ph ab-ph-1" src="phb.jpg" alt="Edwige Klutse en action" />
+      <img class="ab-ph ab-ph-2" src="phc.jpg" alt="Portrait Edwige Klutse" />
+      <div class="about-quote">"L'animation est ma prière exaucée !"</div>
+    </div>
+    <div class="about-text reveal">
+      <div class="section-label">✦ Qui suis-je</div>
+      <h2 class="section-title">Une passion,<br><span>un destin</span></h2>
+      <hr class="divider" />
+      <p>
+        <strong>Edwige Klutse</strong>, de son vrai nom <strong>Vivi Essenam Klutse</strong>,
+        est présentatrice télé, animatrice événementielle et maître de cérémonie. Elle cumule
+        ces diverses fonctions avec passion, professionnalisme et une précision chirurgicale.
+      </p>
+      <p>
+        Son aventure a commencé comme un rêve d'enfant bercé devant les écrans de la télévision
+        nationale togolaise (TVT). Aujourd'hui, elle est cette étoile brillante qu'elle admirait
+        jadis. <strong>Ce n'est pas elle qui s'est lancée dans l'animation — c'est l'animation
+        qui est venue à elle.</strong>
+      </p>
+      <p>
+        Son sourire contagieux irradie chaque plateau, sa joie se transmet naturellement
+        et sa volonté de partager le bonheur se lit à travers chacun de ses mots. Éprise
+        de musique dans sa diversité, elle s'inspire de tout et porte haut les couleurs
+        de la culture togolaise et africaine.
+      </p>
+      <div class="skills-row">
+        <span class="skill-tag">Présentation TV</span>
+        <span class="skill-tag">Animation Live</span>
+        <span class="skill-tag">Maître de Cérémonie</span>
+        <span class="skill-tag">Événementiel</span>
+        <span class="skill-tag">Médias</span>
+        <span class="skill-tag">Élégance</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SERVICES ══ -->
+<section id="services">
+  <div class="reveal" style="text-align:center;margin-bottom:3rem">
+    <div class="section-label" style="text-align:center">✦ Ce que je fais</div>
+    <h2 class="section-title" style="text-align:center">Mes <span>Services</span></h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon">📺</div>
+      <h3>Présentation TV</h3>
+      <p>Animatrice de plateau télévisé, présentatrice d'émissions de variétés, 
+         d'actualité culturelle et de divertissement. Un naturel et une aisance qui 
+         captivent les téléspectateurs.</p>
+      <div class="service-num">01</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">🎤</div>
+      <h3>Animation Événementielle</h3>
+      <p>Galas, concerts, festivals, soirées de gala, remises de prix — Edwige 
+         apporte énergie, élégance et spontanéité pour rendre chaque événement 
+         absolument mémorable.</p>
+      <div class="service-num">02</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">💍</div>
+      <h3>Maîtresse de Cérémonie</h3>
+      <p>Mariages, cérémonies officielles, lancements de produits et événements 
+         d'entreprise. Son professionnalisme et son charme naturel donnent une 
+         dimension exceptionnelle à chaque occasion.</p>
+      <div class="service-num">03</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ QUOTE ══ -->
+<section id="quote-section">
+  <div class="reveal">
+    <blockquote class="big-quote">
+      "L'animation est ma prière exaucée. Chaque scène, chaque plateau, 
+      chaque événement est pour moi une bénédiction que je vis pleinement 
+      avec tout mon cœur."
+    </blockquote>
+    <p class="quote-attr">— Edwige Klutse</p>
+  </div>
+</section>
+
+<!-- ══ GALLERY ══ -->
+<section id="gallery">
+  <div class="reveal" style="margin-bottom:1rem">
+    <div class="section-label">✦ Moments Capturés</div>
+    <h2 class="section-title">Ma <span>Galerie</span></h2>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item g1 reveal"><img src="pha.jpg" alt="Edwige Klutse" loading="lazy" /></div>
+    <div class="gallery-item g2 reveal"><img src="phb.jpg" alt="Edwige Klutse" loading="lazy" /></div>
+    <div class="gallery-item g3 reveal"><img src="phc.jpg" alt="Edwige Klutse" loading="lazy" /></div>
+    <div class="gallery-item g4 reveal"><img src="phd.jpg" alt="Edwige Klutse" loading="lazy" /></div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="contact-info reveal">
+      <div class="section-label">✦ Travaillons ensemble</div>
+      <h2 class="section-title">Me <span>Contacter</span></h2>
+      <hr class="divider" />
+      <p>
+        Vous souhaitez collaborer avec Edwige Klutse pour votre prochain événement, 
+        émission ou projet médiatique ? N'hésitez pas à la contacter. Son professionnalisme, 
+        son talent et son sourire lumineux feront de votre projet une réussite totale.
+      </p>
+      <div class="social-links">
+        <a href="https://www.facebook.com/EdwigeKlutseOfficiel" target="_blank" class="soc-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          Facebook Officiel
+        </a>
+        <a href="tel:+22800000000" class="soc-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.37 2 2 0 0 1 3.59 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l1.07-1.07a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Appeler
+        </a>
+      </div>
+    </div>
+    <div class="contact-form reveal">
+      <input type="text" class="form-field" placeholder="Votre nom complet" />
+      <input type="email" class="form-field" placeholder="Votre adresse email" />
+      <input type="text" class="form-field" placeholder="Objet de votre message" />
+      <textarea class="form-field" placeholder="Décrivez votre projet ou événement..."></textarea>
+      <button class="btn-primary" style="align-self:flex-start;border:none;" onclick="sendMsg()">
+        Envoyer le message →
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Edwige Klutse</div>
+  <div class="footer-copy">
+    © 2025 Edwige Klutse — The Voice Queen of Togo 🇹🇬 &nbsp;
+    Conçu avec <span class="footer-heart">♥</span>
+  </div>
+</footer>
+
+<script>
+// ── INTRO ──────────────────────────────────────────
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('intro').classList.add('gone');
+    document.body.style.overflow = 'auto';
+  }, 2800);
+});
+document.body.style.overflow = 'hidden';
+
+// ── CURSOR ─────────────────────────────────────────
+const cursor = document.getElementById('cursor');
+const ring   = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+function animCursor(){
+  rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+  ring.style.left   = rx + 'px'; ring.style.top  = ry + 'px';
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+document.querySelectorAll('a,button,.service-card,.gallery-item').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(2.5)';
+    cursor.style.background = 'var(--gold)';
+    ring.style.transform = 'translate(-50%,-50%) scale(1.5)';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+    cursor.style.background = 'var(--rose)';
+    ring.style.transform = 'translate(-50%,-50%) scale(1)';
+  });
+});
+
+// ── NAV SCROLL ─────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ── MOBILE MENU ────────────────────────────────────
+function toggleMobile(){
+  const menu = document.getElementById('mobileMenu');
+  const ham  = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  ham.classList.toggle('open');
+}
+function closeMobile(){
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+
+// ── PARTICLES ──────────────────────────────────────
+const pc = document.getElementById('particles');
+for(let i=0;i<18;i++){
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const s = Math.random()*6+3;
+  p.style.cssText = `
+    width:${s}px;height:${s}px;
+    left:${Math.random()*100}%;
+    animation-duration:${Math.random()*15+12}s;
+    animation-delay:${Math.random()*10}s;
+    opacity:${Math.random()*.2+.05};
+  `;
+  pc.appendChild(p);
+}
+
+// ── REVEAL ON SCROLL ───────────────────────────────
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// ── FORM ───────────────────────────────────────────
+function sendMsg(){
+  const btn = document.querySelector('#contact .btn-primary');
+  btn.textContent = '✓ Message envoyé !';
+  btn.style.background = 'linear-gradient(135deg,#27ae60,#1e8449)';
+  setTimeout(()=>{
+    btn.textContent = 'Envoyer le message →';
+    btn.style.background = '';
+  }, 3000);
+}
+</script>
+</body>
+</html>
